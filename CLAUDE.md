@@ -90,6 +90,14 @@ A section hidden with the eye icon (`visible = 0`) is never shown or hidden by
 the plugin; it still gets its date, and the table marks it *Hidden* so a teacher
 is not misled into thinking it will open on that date.
 
+The *Skip these sections* autocomplete keeps its scroll position through
+`amd/src/keep_scroll.js`: core re-renders the suggestions after every pick
+and scrolls to the first one. The module leans on core's autocomplete markup,
+so check it still works (the Behat scenario does) after a Moodle upgrade.
+`amd/build` must be rebuilt after editing the source — Moodle's `grunt amd`
+from the Moodle root, or any babel AMD transform + terser that produces a
+**named** `define("local_weekopener/keep_scroll", ...)`.
+
 Moodle 4.5 names every new section "New section", so the form and table label
 sections as `N. name`.
 

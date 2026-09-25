@@ -102,6 +102,26 @@ Feature: Setting the dates a course's sections open on
       | Section        | Opens  |
       | 4. New section | Hidden |
 
+  @javascript
+  Scenario: Picking sections to skip keeps the list where it was
+    Given the following "courses" exist:
+      | fullname | shortname | format | numsections |
+      | Long     | LONG      | topics | 20          |
+    And I log in as "admin"
+    And I am on "Long" course homepage
+    And I navigate to "Opening dates" in current page administration
+    When I open the autocomplete suggestions list
+    And I click on "16. New section" item in the autocomplete list
+    And I wait "1" seconds
+    Then the suggestions for "id_excluded" are not scrolled to the top
+    And I click on "17. New section" item in the autocomplete list
+    And I press the escape key
+    And I press "Apply opening dates"
+    And the following should exist in the "local-weekopener-current" table:
+      | Section         | Opens   |
+      | 16. New section | Skipped |
+      | 17. New section | Skipped |
+
   Scenario: Students cannot reach the page
     Given I log in as "stu"
     When I am on the "Opener" "course" page

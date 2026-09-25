@@ -90,6 +90,8 @@ if ($data = $form->get_data()) {
     redirect($url, get_string('applied', 'local_weekopener', $changed), null, \core\output\notification::NOTIFY_SUCCESS);
 }
 
+$PAGE->requires->js_call_amd('local_weekopener/keep_scroll', 'init', ['id_excluded']);
+
 echo $output->header();
 echo $output->heading(get_string('nav', 'local_weekopener'));
 echo html_writer::div(get_string('intro', 'local_weekopener'), 'mb-3');
