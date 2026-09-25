@@ -36,6 +36,8 @@ $string['current'] = 'Current opening dates';
 $string['opens'] = 'Opens';
 $string['opens_now'] = 'Open now';
 $string['skipped'] = 'Skipped';
+$string['hiddensection'] = 'Hidden';
+$string['hiddensection_desc'] = 'Hidden from students, so it stays out of sight after its opening date until it is shown again.';
 
 $string['clear'] = 'Remove all opening dates';
 $string['clear_desc'] = 'Removes the opening date from every section except the skipped ones. Other restrictions stay.';
