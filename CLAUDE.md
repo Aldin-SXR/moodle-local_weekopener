@@ -86,6 +86,10 @@ Section 0 is never touched. Subsections (delegated sections) are recognised by
 `get_listed_section_info_all()` for this, because it lists subsections as
 ordinary sections while `mod_subsection` is disabled, which is 4.5's default.
 
+A section hidden with the eye icon (`visible = 0`) is never shown or hidden by
+the plugin; it still gets its date, and the table marks it *Hidden* so a teacher
+is not misled into thinking it will open on that date.
+
 Moodle 4.5 names every new section "New section", so the form and table label
 sections as `N. name`.
 

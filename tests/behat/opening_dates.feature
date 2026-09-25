@@ -85,6 +85,23 @@ Feature: Setting the dates a course's sections open on
     Then I should see "Opening dates removed. 5 section(s) changed."
     And I should not see "October 2030"
 
+  @javascript
+  Scenario: A section hidden with the eye icon is marked in the table
+    Given I log in as "prof"
+    And I am on "Opener" course homepage with editing mode on
+    And I hide section "3"
+    And I navigate to "Opening dates" in current page administration
+    When I set the following fields to these values:
+      | Starting section  | 2. New section |
+      | id_starttime_year | 2030           |
+    And I press "Apply opening dates"
+    Then the following should exist in the "local-weekopener-current" table:
+      | Section        | Opens  |
+      | 3. New section | Hidden |
+    And the following should not exist in the "local-weekopener-current" table:
+      | Section        | Opens  |
+      | 4. New section | Hidden |
+
   Scenario: Students cannot reach the page
     Given I log in as "stu"
     When I am on the "Opener" "course" page

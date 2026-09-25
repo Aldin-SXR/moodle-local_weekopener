@@ -117,6 +117,13 @@ foreach ($sections as $sectionid => $section) {
     if (in_array($sectionid, $excluded, true)) {
         $when .= ' ' . html_writer::span(get_string('skipped', 'local_weekopener'), 'badge bg-secondary text-dark');
     }
+    // Hidden with the eye icon: the opening date is still set, but students
+    // will not see the section until someone shows it again.
+    if (!$section->visible) {
+        $when .= ' ' . html_writer::span(get_string('hiddensection', 'local_weekopener'), 'badge bg-warning text-dark', [
+            'title' => get_string('hiddensection_desc', 'local_weekopener'),
+        ]);
+    }
     $table->data[] = [s($names[$sectionid]), $when, $mode];
 }
 echo html_writer::table($table);
