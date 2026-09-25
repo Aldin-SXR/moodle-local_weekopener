@@ -1,0 +1,65 @@
+services:
+
+  db:
+    image: mariadb:10.11
+    restart: unless-stopped
+    ports:
+      - "8506:3306"
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD:-rootsecret}
+      MARIADB_DATABASE:      ${MARIADB_DATABASE:-moodle}
+      MARIADB_USER:          ${MARIADB_USER:-moodle}
+      MARIADB_PASSWORD:      ${MARIADB_PASSWORD:-moodlepass}
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  moodle:
+    build:
+      context: ./docker
+      args:
+        MOODLE_TAG: ${MOODLE_TAG:-v4.5.0}
+    restart: unless-stopped
+    ports:
+      - "8380:80"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      MOODLE_DB_HOST:        db
+      MOODLE_DB_PORT:        3306
+      MOODLE_DB_NAME:        ${MARIADB_DATABASE:-moodle}
+      MOODLE_DB_USER:        ${MARIADB_USER:-moodle}
+      MOODLE_DB_PASSWORD:    ${MARIADB_PASSWORD:-moodlepass}
+      MOODLE_WWWROOT:        ${MOODLE_WWWROOT:-http://localhost:8380}
+      MOODLE_ADMIN_USER:     ${MOODLE_USERNAME:-admin}
+      MOODLE_ADMIN_PASSWORD: ${MOODLE_PASSWORD:-Admin1234!}
+      MOODLE_ADMIN_EMAIL:    ${MOODLE_EMAIL:-admin@example.com}
+      MOODLE_SITE_NAME:      ${MOODLE_SITE_NAME:-local_weekopener Dev}
+      APACHE_DOCUMENT_ROOT:  /var/www/html
+    volumes:
+      # Plugin source mounted directly — edits are live without a rebuild.
+      - ./:/var/www/html/local/weekopener:delegated
+      - moodle_data:/var/moodledata
+
+  selenium:
+    # ARM64 (Apple Silicon): seleniarm/standalone-chromium
+    # x86_64 (CI / Intel):   selenium/standalone-chrome
+    image: seleniarm/standalone-chromium:latest
+    restart: unless-stopped
+    ports:
+      - "4446:4444"
+    shm_size: '2gb'
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:4444/wd/hub/status"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+volumes:
+  db_data:
+  moodle_data:

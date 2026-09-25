@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../lib/phpunit/phpunit.xsd"
+    bootstrap="../../lib/phpunit/bootstrap.php"
+    processIsolation="false"
+    backupGlobals="false"
+    cacheResult="false"
+    beStrictAboutTestsThatDoNotTestAnything="false"
+    beStrictAboutOutputDuringTests="true"
+>
+  <php>
+    <const name="PHPUNIT_SEQUENCE_START" value="198000"/>
+  </php>
+
+  <testsuites>
+    <testsuite name="local_weekopener_testsuite">
+      <directory suffix="_test.php">.</directory>
+    </testsuite>
+  </testsuites>
+
+  <coverage>
+    <include>
+      <directory suffix=".php">classes</directory>
+    </include>
+  </coverage>
+</phpunit>

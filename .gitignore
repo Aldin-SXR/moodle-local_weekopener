@@ -1,0 +1,11 @@
+.env
+.env.local
+.phpunit.result.cache
+.claude/
+test-results/
+vendor/
+node_modules/
+.DS_Store
+
+# Claude Code internal state
+.tracker/
