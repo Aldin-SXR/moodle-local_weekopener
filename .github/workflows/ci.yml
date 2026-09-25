@@ -75,9 +75,12 @@ jobs:
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci validate .
 
+      # Run against the installed copy: moodle-plugin-ci always uses the
+      # plugin's phpunit.xml, whose bootstrap path only resolves from inside
+      # a Moodle tree.
       - name: PHPUnit
         if: ${{ !cancelled() }}
-        run: moodle-plugin-ci phpunit --moodle ../moodle --fail-on-warning .
+        run: moodle-plugin-ci phpunit --moodle ../moodle --fail-on-warning ../moodle/local/weekopener
 
       - name: Behat
         if: ${{ !cancelled() }}
